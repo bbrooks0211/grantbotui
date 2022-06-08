@@ -19,7 +19,7 @@
                 <td><p>{{ sound.name }}</p></td>
                 <td><a href="{{sound.link}}" target="_blank">{{ sound.link }}</a></td>
                 <td><p>{{ sound.volume }}</p></td>
-                <td><div class="mx-auto" style="width: 30px;"><button (click)="onClickDelete($event)" class="btn btn-danger btn-sm" id="delbtn_{{sound.id}}"><i class="bi bi-trash3"></i></button></div></td>
+                <td><div class="mx-auto" style="width: 30px;"><button (click)="onClickDelete($event)" class="btn btn-sm" style="color: red;" id="delbtn_{{sound.id}}"><i class="bi bi-trash3"></i></button></div></td>
               </tr>
             </tbody>
           </table>
