@@ -18,7 +18,8 @@ export class JoinSoundsComponent implements OnInit {
     newSoundForm = this.formBuilder.group({
       submitUserID: "",
       submitName: "",
-      submitLink: ""
+      submitLink: "",
+      submitVolume: 100
     });
 
     newSoundForm1: FormArray = this.formBuilder.array([]);
@@ -43,29 +44,37 @@ export class JoinSoundsComponent implements OnInit {
           let link = item.value.submitLink;
           let userid = item.value.submitUserID;
           let name = item.value.submitName;
+          let volume = item.value.submitVolume;
           item.setValue({
             submitUserID: userid,
             submitName: "",
-            submitLink: ""
+            submitLink: "",
+            submitVolume: 100
           });
 
           this.JoinSoundsUsers.forEach((meme, index) => {
             if(meme.userid == userid) {
-              let model: JoinSound = new JoinSound(-1, userid, "", "", link, name);
+              let model: JoinSound = new JoinSound(-1, userid, "", "", link, name, 100);
               meme.sounds.push(model);
             }
           });
 
-          await this.addSound(link, userid, name);
+          await this.addSound(link, userid, name, volume);
           
         }
       }
     }
 
+    async onClickDelete(event: Event) {
+      var firstid: string = (event.target as Element).id;
+      var id: string = firstid.replace('delbtn_', '');
+
+      this.deleteJoinSound(id);
+    }
+
     async refreshData() {
       
       await this.service.GetAllJoinSounds().then(data => {
-        console.log(data);
         setTimeout(() => {
           if(this.JoinSoundsUsers.length < 1)
           {
@@ -77,8 +86,6 @@ export class JoinSoundsComponent implements OnInit {
               for(let i = 0; i < data.length; i++)
               {
                 let newuser = data[i];
-                console.log("New User: ");
-                console.log(newuser);
                 if(user.userid == newuser.userid && user.sounds.length != newuser.sounds.length)
                 {
                   this.clearFormFromSubmit(user.userid);
@@ -88,7 +95,6 @@ export class JoinSoundsComponent implements OnInit {
             })
           }
 
-          console.log("length poop: " + this.NewArray.length)
           if(this.NewArray.length < 1)
           {
             this.loadFormArray();
@@ -99,11 +105,9 @@ export class JoinSoundsComponent implements OnInit {
     }
 
     loadFormArray() {
-      console.log("poopoo");
-      console.log(this.JoinSoundsUsers);
       this.NewArray = [];
       for(var i = 0; i < this.JoinSoundsUsers.length; i++) {
-        this.addFormToArray("", "", this.JoinSoundsUsers[i].userid);
+        this.addFormToArray("", "", this.JoinSoundsUsers[i].userid, 100);
       } 
     }
 
@@ -113,18 +117,20 @@ export class JoinSoundsComponent implements OnInit {
           this.NewArray[index] = this.formBuilder.group({
             submitUserID: userid,
             submitName: "",
-            submitLink: ""
+            submitLink: "",
+            submitVolume: 100
           });
         }
       });
     }
 
-    addFormToArray(name: string, link: string, userid: string) {
+    addFormToArray(name: string, link: string, userid: string, volume: number) {
       
       this.NewArray.push(this.formBuilder.group({
         submitUserID: userid,
         submitName: name,
-        submitLink: link
+        submitLink: link,
+        submitVolume: volume
       }));
     }
 
@@ -133,8 +139,12 @@ export class JoinSoundsComponent implements OnInit {
       return meme.controls;
     }
 
-    async addSound(link: string, userid: string, name: string) {
-      let model: JoinSound = new JoinSound(-1, userid, "", "", link, name);
+    deleteJoinSound(id: string) {
+      this.service.DeleteJoinSound(id);
+    }
+
+    async addSound(link: string, userid: string, name: string, volume: number) {
+      let model: JoinSound = new JoinSound(-1, userid, "", "", link, name, volume);
       await this.service.AddJoinSound(model).then(x => {
         this.refreshData();
       });

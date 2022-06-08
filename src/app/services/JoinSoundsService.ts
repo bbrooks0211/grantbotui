@@ -29,10 +29,9 @@ export class JoinSoundsService {
                     
                     for(var actualCurrent of item.joinSounds)
                     {
-                        var joinSoundItem = new JoinSound(actualCurrent.id, actualCurrent.userid, actualCurrent.username, actualCurrent.creatorID, actualCurrent.link, actualCurrent.name);
+                        var joinSoundItem = new JoinSound(actualCurrent.id, actualCurrent.userid, actualCurrent.username, actualCurrent.creatorID, actualCurrent.link, actualCurrent.name, actualCurrent.volume);
     
                         joinSounds.push(joinSoundItem);
-                        
                     }
     
                     MainJoinObject.sounds = joinSounds;
@@ -55,4 +54,10 @@ export class JoinSoundsService {
         }).subscribe();
     }
 
+    async DeleteJoinSound(id: string)
+    {
+        this.http.get<any>(utility.getUrl() + 'OperationGrant/rest/joinsounds/delete/' + id).subscribe({
+            
+        });
+    }
 }

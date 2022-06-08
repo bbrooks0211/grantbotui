@@ -9,6 +9,7 @@
               <tr>
                 <th>Label</th>
                 <th>Link</th>
+                <th>Volume</th>
                 <th>Options</th>
               </tr>
             </thead>
@@ -16,7 +17,8 @@
               <tr *ngFor="let sound of usersounds.sounds">
                 <td><p>{{ sound.name }}</p></td>
                 <td><a href="{{sound.link}}" target="_blank">{{ sound.link }}</a></td>
-                <td><div class="mx-auto" style="width: 30px;"><i class="bi bi-trash3"></i></div></td>
+                <td><p>{{ sound.volume }}</p></td>
+                <td><div class="mx-auto" style="width: 30px;"><button (click)="onClickDelete($event)" class="btn btn-danger btn-sm" id="delbtn_{{sound.id}}"><i class="bi bi-trash3"></i></button></div></td>
               </tr>
             </tbody>
           </table>
@@ -26,15 +28,19 @@
                         <form [formGroup]="item" (ngSubmit)="onClickNewSound()" class="row">
                             <input readonly type="hidden" name="userid" class="userid" formControlName="submitUserID" value="{{usersounds.userid}}"/>
                             <div class="col-auto">
-                              <label for="newitemname" class="visually-hidden">Label</label>
-                              <input type="text" class="form-control" placeholder="Label" formControlName="submitName">
+                              <label for="newitemname" class="">Label</label>
+                              <input type="text" class="form-control form-control-sm" placeholder="Label" formControlName="submitName">
                             </div>
                             <div class="col-auto">
-                              <label for="newitemlink" class="visually-hidden">Link</label>
-                              <input type="text" class="form-control" placeholder="Link" formControlName="submitLink">
+                              <label for="newitemlink" class="">Link</label>
+                              <input type="text" class="form-control form-control-sm" placeholder="Link" formControlName="submitLink">
+                            </div>
+                            <div class="col-2">
+                                <label for="newitemvolume" class="">Volume</label>
+                                <input type="number" class="form-control form-control-sm" placeholder="Volume" formControlName="submitVolume">
                             </div>
                             <div class="col-auto">
-                              <button type="submit" class="btn btn-primary mb-3">Submit</button>
+                              <button type="submit" style="margin-top: 22px" class="btn btn-dark btn-sm">Submit</button>
                             </div>
                           </form>
                 </div>
