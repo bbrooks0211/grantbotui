@@ -14,22 +14,31 @@
         </form>
         </div>
         <div class="col-md-6">
-            <h3>Queue</h3>
-            <table class="table">
-                <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Link</th>
-                    <th>Length</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr *ngFor="let song of queueData">
-                    <td><p>{{ song.title }}</p></td>
-                    <td><a href="{{song.url}}" target="_blank">{{ song.url }}</a></td>
-                    <td><p>{{ song.length.seconds * 1000 | date:'mm:ss' }}</p></td>
-                </tr>
-                </tbody>
-            </table>
+            <div style="margin-bottom: 35px;">
+                <h4 style="margin-bottom: 14px;">Now Playing:</h4>
+                <p *ngIf="nowPlaying != undefined" class="nowplaying">{{ nowPlaying.title }} | {{ nowPlaying.length.seconds * 1000 | date:'mm:ss' }}</p>
+                <p *ngIf="nowPlaying != undefined"><a href="{{nowPlaying.url}}" target="_blank">{{ nowPlaying.url }}</a></p>
+
+                <p *ngIf="nowPlaying == undefined" class="nowplaying">Queue is empty</p>
+            </div>
+            <div *ngIf="queueData.length > 0">
+                <h4>Queue</h4>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Link</th>
+                        <th>Length</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr *ngFor="let song of queueData">
+                        <td><p>{{ song.title }}</p></td>
+                        <td><a href="{{song.url}}" target="_blank">{{ song.url }}</a></td>
+                        <td><p>{{ song.length.seconds * 1000 | date:'mm:ss' }}</p></td>
+                    </tr>
+                    </tbody>
+                </table>
+             </div>
     </div>
 </div>

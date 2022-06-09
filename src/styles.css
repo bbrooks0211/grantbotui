@@ -4,14 +4,12 @@
 
 .trash-icon {
     color: #cc0000;
-    font-size: 18;
     padding: 8px 8px 8px 8px;
 }
 
 .trash-icon-clicked {
     color: #5f5f5f;
     pointer-events: none;
-    font-size: 20;
     padding: 8px 8px 8px 8px;
     animation: spin 3s infinite;
     position: relative;
@@ -21,5 +19,20 @@
 
 .trash-icon:hover {
     cursor:pointer;
+    color: #ff8080;
 }
 
+.play-icon {
+    color: #002fff;
+    padding: 8px 8px 8px 8px;
+}
+
+.play-icon:hover {
+    color: #617df7;
+    cursor: pointer;
+}
+
+.icon-container-1 {
+    display:inline-block !important;
+    width: 30px;
+}

@@ -12,6 +12,7 @@ import { delay, interval } from 'rxjs';
 export class PlaySoundsComponent implements OnInit {
 
   queueData: SongInfo[];
+  nowPlaying: SongInfo;
 
   addLinkForm = this.formBuilder.group({
     submitLink: ""
@@ -22,7 +23,7 @@ export class PlaySoundsComponent implements OnInit {
   ngOnInit(): void {
     this.getQueueData();
 
-    interval(10000).subscribe(x => {
+    interval(1000).subscribe(x => {
       this.getQueueData();
     });
   }
@@ -43,8 +44,8 @@ export class PlaySoundsComponent implements OnInit {
   }
 
   getQueueData() {
-    console.log("calling queue data");
     this.playSoundService.GetSongQueue().subscribe((data: SongInfo[]) => {
+      this.nowPlaying = data.pop()!;
       this.queueData = data;
     });
   }

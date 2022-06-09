@@ -6,6 +6,7 @@ import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { delay, interval } from 'rxjs';
 import { YouTubeAPIService } from '../services/YouTubeAPIService';
 import { YTVideoData } from '../models/YTVideoData';
+import { PlaySoundService } from '../services/PlaySoundService';
 
 @Component({
   selector: 'app-join-sounds',
@@ -27,7 +28,7 @@ export class JoinSoundsComponent implements OnInit {
 
     newSoundForm1: FormArray = this.formBuilder.array([]);
 
-    constructor(private service: JoinSoundsService, private formBuilder: FormBuilder, private ytservice: YouTubeAPIService) { }
+    constructor(private service: JoinSoundsService, private formBuilder: FormBuilder, private ytservice: YouTubeAPIService, private playService: PlaySoundService) { }
 
     ngOnInit(): void {
       this.refreshData();
@@ -188,5 +189,9 @@ export class JoinSoundsComponent implements OnInit {
         return true;
       }
       */
+    }
+
+    onClickPlay(url: string) {
+      this.playService.AddSongToQueue(url).subscribe();
     }
 }
