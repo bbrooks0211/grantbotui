@@ -23,7 +23,7 @@
             <tbody>
               <tr *ngFor="let sound of usersounds.sounds">
                 <td><p>{{ sound.name }}</p></td>
-                <td><a href="{{sound.link}}" target="_blank">{{ sound.link }}</a></td>
+                <td ><div style="max-width: 200px;"><a href="{{sound.link}}"  target="_blank"><p style="word-wrap: break-word;">{{sound.link}}</p></a></div></td>
                 <td><p>{{ sound.volume }}</p></td>
                 <td><div class="mx-auto" style="width: 30px;"><i class="bi bi-trash3 trash-icon" (click)="onClickDelete($event)" id="delbtn_{{sound.id}}"></i></div></td>
               </tr>
@@ -52,23 +52,7 @@
                           </form>
                 </div>
             </div>
-        <!--
-        <form [formGroup]="newSoundForm" (ngSubmit)="onClickNewSound()" class="row">
-            
-            <input readonly type="hidden" name="userid" class="userid" formControlName="submitUserID" value="{{usersounds.userid}}"/>
-            <div class="col-auto">
-              <label for="newitemname" class="visually-hidden">Label</label>
-              <input type="text" class="form-control" id="newitemname" placeholder="Label" formControlName="submitName">
-            </div>
-            <div class="col-auto">
-              <label for="newitemlink" class="visually-hidden">Link</label>
-              <input type="text" class="form-control" id="newitemlink" placeholder="Link" formControlName="submitLink">
-            </div>
-            <div class="col-auto">
-              <button type="submit" class="btn btn-primary mb-3" id="submitnewsound">Submit</button>
-            </div>
-          </form>
-          -->
+            <hr />
     </div>
 
 </div>
