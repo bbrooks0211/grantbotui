@@ -22,7 +22,7 @@
             </thead>
             <tbody>
               <tr *ngFor="let sound of usersounds.sounds">
-                <td><p>{{ sound.name }}</p></td>
+                <td style="max-width: 100px;"><p style="word-wrap: break-word;">{{ sound.name }}</p></td>
                 <td ><div style="max-width: 200px;"><a href="{{sound.link}}"  target="_blank"><p style="word-wrap: break-word;">{{sound.link}}</p></a></div></td>
                 <td><p>{{ sound.volume }}</p></td>
                 <td>
