@@ -4,6 +4,8 @@ import { JoinSoundsForUser } from '../models/JoinSoundsForUser';
 import { JoinSoundsService } from '../services/JoinSoundsService';
 import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { delay, interval } from 'rxjs';
+import { YouTubeAPIService } from '../services/YouTubeAPIService';
+import { YTVideoData } from '../models/YTVideoData';
 
 @Component({
   selector: 'app-join-sounds',
@@ -14,6 +16,7 @@ export class JoinSoundsComponent implements OnInit {
 
     JoinSoundsUsers: JoinSoundsForUser[] = [];
     NewArray: FormGroup[] = [];
+    showLengthValidationError: boolean = false;
 
     newSoundForm = this.formBuilder.group({
       submitUserID: "",
@@ -24,12 +27,12 @@ export class JoinSoundsComponent implements OnInit {
 
     newSoundForm1: FormArray = this.formBuilder.array([]);
 
-    constructor(private service: JoinSoundsService, private formBuilder: FormBuilder) { }
+    constructor(private service: JoinSoundsService, private formBuilder: FormBuilder, private ytservice: YouTubeAPIService) { }
 
     ngOnInit(): void {
       this.refreshData();
       
-      interval(1000).subscribe(x => {
+      interval(2500).subscribe(x => {
         this.refreshData();
       });
       
@@ -39,6 +42,7 @@ export class JoinSoundsComponent implements OnInit {
     {
       for(let item of this.NewArray)
       {
+
         if(item.value.submitUserID != "" && item.value.submitName != "" && item.value.submitLink != "")
         {
           let link = item.value.submitLink;
@@ -52,15 +56,28 @@ export class JoinSoundsComponent implements OnInit {
             submitVolume: 100
           });
 
-          this.JoinSoundsUsers.forEach((meme, index) => {
-            if(meme.userid == userid) {
-              let model: JoinSound = new JoinSound(-1, userid, "", "", link, name, 100);
-              meme.sounds.push(model);
-            }
+          let isValidated = false;
+          let vidobj = this.ytservice.GetVideoFromURL(link).subscribe((data) => {
+            isValidated = this.validateVideoLength(data);
           });
-
-          await this.addSound(link, userid, name, volume);
           
+
+          setTimeout(() => {
+            if(isValidated == false)
+            {
+              window.alert("That video is too long- make sure it's 10 seconds or less. Other issues might be: It's age restricted, or you entered a wrong link.");
+            } else {
+              
+              this.JoinSoundsUsers.forEach((meme, index) => {
+                if(meme.userid == userid) {
+                  let model: JoinSound = new JoinSound(-1, userid, "", "", link, name, 100);
+                  meme.sounds.push(model);
+                }
+              });
+    
+              this.addSound(link, userid, name, volume);
+            }
+          }, 200);
         }
       }
     }
@@ -68,7 +85,9 @@ export class JoinSoundsComponent implements OnInit {
     async onClickDelete(event: Event) {
       var firstid: string = (event.target as Element).id;
       var id: string = firstid.replace('delbtn_', '');
-
+      document.getElementById(firstid)!.style.animationName = "";
+      document.getElementById(firstid)!.style.animationName = "example";
+      (event.target as Element).className = "bi bi-trash3 trash-icon-clicked";
       this.deleteJoinSound(id);
     }
 
@@ -89,8 +108,9 @@ export class JoinSoundsComponent implements OnInit {
                 if(user.userid == newuser.userid && user.sounds.length != newuser.sounds.length)
                 {
                   this.clearFormFromSubmit(user.userid);
-                  this.JoinSoundsUsers[i] = newuser;
+                  
                 }
+                this.JoinSoundsUsers[i].sounds = newuser.sounds;
               }
             })
           }
@@ -146,7 +166,27 @@ export class JoinSoundsComponent implements OnInit {
     async addSound(link: string, userid: string, name: string, volume: number) {
       let model: JoinSound = new JoinSound(-1, userid, "", "", link, name, volume);
       await this.service.AddJoinSound(model).then(x => {
-        this.refreshData();
+        //this.refreshData();
       });
+    }
+
+    validateVideoLength(data: any) {
+
+      let viddata = new YTVideoData(data.items[0].contentDetails.duration);
+
+      if(viddata.duration.days != undefined || viddata.duration.hours != undefined || viddata.duration.minutes != undefined || viddata.duration.seconds! >= 12) {
+        console.log("returning false");
+        return false;
+      } else {
+        console.log("returning true");
+        return true;
+      }
+
+
+      /*
+      if(vidobj.duration.seconds! <= 12) {
+        return true;
+      }
+      */
     }
 }

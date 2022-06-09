@@ -1,3 +1,9 @@
+<style>
+    @keyframes example {
+        0%   {transform: rotate(0deg)}
+        100% {transform: rotate(360deg)}
+    }
+</style>
 <div class="row">
     <h1>Join Sounds</h1>
     <div class="col-md-6" *ngFor="let usersounds of JoinSoundsUsers" style="margin-top: 40px;">
@@ -19,7 +25,7 @@
                 <td><p>{{ sound.name }}</p></td>
                 <td><a href="{{sound.link}}" target="_blank">{{ sound.link }}</a></td>
                 <td><p>{{ sound.volume }}</p></td>
-                <td><div class="mx-auto" style="width: 30px;"><button (click)="onClickDelete($event)" class="btn btn-sm" style="color: red;" id="delbtn_{{sound.id}}"><i class="bi bi-trash3"></i></button></div></td>
+                <td><div class="mx-auto" style="width: 30px;"><i class="bi bi-trash3 trash-icon" (click)="onClickDelete($event)" id="delbtn_{{sound.id}}"></i></div></td>
               </tr>
             </tbody>
           </table>

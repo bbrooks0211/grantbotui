@@ -7,11 +7,15 @@ import { JoinSoundsComponent } from './join-sounds/join-sounds.component';
 import { HttpClientModule } from '@angular/common/http';
 import { JoinSoundsService } from './services/JoinSoundsService';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { YouTubeAPIService } from './services/YouTubeAPIService';
+import { PlaySoundsComponent } from './play-sounds/play-sounds.component';
+import { PlaySoundService } from './services/PlaySoundService';
 
 @NgModule({
   declarations: [
     AppComponent,
-    JoinSoundsComponent
+    JoinSoundsComponent,
+    PlaySoundsComponent
   ],
   imports: [
     BrowserModule,
@@ -20,7 +24,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
     FormsModule,
     ReactiveFormsModule
   ],
-  providers: [JoinSoundsService],
+  providers: [JoinSoundsService, YouTubeAPIService, PlaySoundService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

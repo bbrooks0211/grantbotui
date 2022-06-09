@@ -6,5 +6,16 @@ export default class utility {
         return this.url;
     }
 
+    public static GetYouTubeVideoID(url: string) {
+
+        var regExp = /(youtu.*be.*)\/(watch\?v=|embed\/|v|shorts|)(.*?((?=[&#?])|$))/gm;
+        var result = regExp.exec(url);
+        if(result == null || result == undefined) {
+            return "";
+        }
+        else {
+            return result![3];
+        }
+    }
     
 }
