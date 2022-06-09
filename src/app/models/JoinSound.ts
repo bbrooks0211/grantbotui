@@ -1,5 +1,5 @@
 export class JoinSound {
-    public id: number;
+    public id: string;
     public creatorID: string;
     public username: string;
     public userid: string;
@@ -7,7 +7,7 @@ export class JoinSound {
     public name: string;
     public volume: number;
     
-    constructor(id: number, userid: string, username: string, creatorid: string, link: string, name: string, volume: number){
+    constructor(id: string, userid: string, username: string, creatorid: string, link: string, name: string, volume: number){
         this.id = id;
         this.userid = userid;
         this.username = username;

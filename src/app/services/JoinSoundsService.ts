@@ -57,7 +57,11 @@ export class JoinSoundsService {
     async DeleteJoinSound(id: string)
     {
         this.http.get<any>(utility.getUrl() + 'OperationGrant/rest/joinsounds/delete/' + id).subscribe({
-            
+
         });
+    }
+
+    PlayJoinSound(id: string) {
+        return this.http.get<any>(utility.getUrl() + 'OperationGrant/rest/joinsounds/play/' + id);
     }
 }

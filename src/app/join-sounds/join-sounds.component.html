@@ -26,7 +26,7 @@
                 <td ><div style="max-width: 200px;"><a href="{{sound.link}}"  target="_blank"><p style="word-wrap: break-word;">{{sound.link}}</p></a></div></td>
                 <td><p>{{ sound.volume }}</p></td>
                 <td>
-                    <div class="icon-container-1"><i class="bi bi-play-circle-fill play-icon" (click)="onClickPlay(sound.link)"></i></div>
+                    <div class="icon-container-1"><i class="bi bi-play-circle-fill play-icon" (click)="onClickPlay(sound.id)"></i></div>
                     <div class="icon-container-1"><i class="bi bi-trash3 trash-icon" (click)="onClickDelete($event)" id="delbtn_{{sound.id}}"></i></div>
                 </td>
               </tr>

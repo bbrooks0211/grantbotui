@@ -71,7 +71,7 @@ export class JoinSoundsComponent implements OnInit {
               
               this.JoinSoundsUsers.forEach((meme, index) => {
                 if(meme.userid == userid) {
-                  let model: JoinSound = new JoinSound(-1, userid, "", "", link, name, 100);
+                  let model: JoinSound = new JoinSound("", userid, "", "", link, name, 100);
                   meme.sounds.push(model);
                 }
               });
@@ -165,7 +165,7 @@ export class JoinSoundsComponent implements OnInit {
     }
 
     async addSound(link: string, userid: string, name: string, volume: number) {
-      let model: JoinSound = new JoinSound(-1, userid, "", "", link, name, volume);
+      let model: JoinSound = new JoinSound("", userid, "", "", link, name, volume);
       await this.service.AddJoinSound(model).then(x => {
         //this.refreshData();
       });
@@ -191,7 +191,9 @@ export class JoinSoundsComponent implements OnInit {
       */
     }
 
-    onClickPlay(url: string) {
-      this.playService.AddSongToQueue(url).subscribe();
+    onClickPlay(id: string) {
+      this.service.PlayJoinSound(id).subscribe(meme => {
+
+      });
     }
 }
